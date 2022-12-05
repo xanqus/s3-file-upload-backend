@@ -9,4 +9,4 @@ spring:
     password: sbs123414
   jpa:
     hibernate:
-      #ddl-auto: create
+      ddl-auto: create

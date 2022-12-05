@@ -6,6 +6,7 @@ import com.example.fileupload.article.dto.CreateArticleForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,6 +23,8 @@ public class ArticleService {
         Article article = Article.builder()
                 .title(createArticleForm.getTitle())
                 .body(createArticleForm.getBody())
+                .createDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
                 .build();
         articleRepostiory.save(article);
     }
