@@ -1,11 +1,10 @@
 package com.example.fileupload.article.controller;
 
 import com.example.fileupload.article.domain.Article;
+import com.example.fileupload.article.dto.CreateArticleForm;
 import com.example.fileupload.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +18,11 @@ public class ArticleController {
     @GetMapping("")
     public List<Article> getArticles() {
         return articleService.getAllArticles();
+    }
+
+    @PostMapping("")
+    public void createArticle(@RequestBody CreateArticleForm createArticleForm) {
+
+        articleService.createArticle(createArticleForm);
     }
 }
