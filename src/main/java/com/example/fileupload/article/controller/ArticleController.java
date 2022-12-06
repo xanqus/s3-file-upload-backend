@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,8 @@ public class ArticleController {
     }
 
     @PostMapping("")
-    public void createArticle(@Valid @RequestBody CreateArticleForm createArticleForm) {
+    public void createArticle(@Valid CreateArticleForm createArticleForm, @RequestParam(value="files", required = false) List<MultipartFile> files) {
+        System.out.println("files: " + files);
 
         articleService.createArticle(createArticleForm);
     }
