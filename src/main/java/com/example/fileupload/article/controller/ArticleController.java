@@ -34,6 +34,11 @@ public class ArticleController {
         return articleService.getAllArticles();
     }
 
+    @GetMapping("/{id}")
+    public Article getArticles(@PathVariable Long id) {
+        return articleService.getArticle(id);
+    }
+
     @PostMapping("")
     public void createArticle(@Valid @RequestBody CreateArticleForm createArticleForm) {
 

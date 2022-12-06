@@ -28,4 +28,8 @@ public class ArticleService {
                 .build();
         articleRepostiory.save(article);
     }
+
+    public Article getArticle(Long id) {
+        return articleRepostiory.findById(id).orElseThrow();
+    }
 }
