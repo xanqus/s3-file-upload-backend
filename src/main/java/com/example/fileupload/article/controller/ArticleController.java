@@ -58,9 +58,14 @@ public class ArticleController {
     public void createArticle(@Valid CreateArticleForm createArticleForm, @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         Article article = articleService.createArticle(createArticleForm);
-
-        String imgUrl = awsService.sendFileToS3Bucket(files.get(0));
-
-        articleImageService.addArticleImage(imgUrl, article);
+        files.stream()
+                .forEach(file -> {
+                    try {
+                        String imgUrl = awsService.sendFileToS3Bucket(file);
+                        articleImageService.addArticleImage(imgUrl, article);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 }

@@ -20,12 +20,16 @@ public class AwsService {
     private final AmazonS3 amazonS3;
 
     public String sendFileToS3Bucket(MultipartFile file) throws IOException {
-        UUID filename = UUID.randomUUID();
+        String originalFilename = file.getOriginalFilename();
+        String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String filename = UUID.randomUUID().toString();
+        filename += filename + ext;
+
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getInputStream().available());
 
-        amazonS3.putObject(bucket, filename.toString(), file.getInputStream(), objectMetadata);
-        return amazonS3.getUrl(bucket, filename.toString()).toString();
+        amazonS3.putObject(bucket, filename, file.getInputStream(), objectMetadata);
+        return amazonS3.getUrl(bucket, filename).toString();
     }
 
 }
