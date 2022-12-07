@@ -57,12 +57,16 @@ public class ArticleController {
     @PostMapping("")
     public void createArticle(@Valid CreateArticleForm createArticleForm, @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
+        // 게시물 작성 후 db 저장 로직
         Article article = articleService.createArticle(createArticleForm);
         if(files == null) return;
         files.stream()
                 .forEach(file -> {
                     try {
+                        // s3 bucket 업로드 로직
                         String imgUrl = awsService.sendFileToS3Bucket(file);
+                        
+                        // s3 bucket 업로드 후 imgUrl db 저장 로직
                         articleImageService.addArticleImage(imgUrl, article);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
