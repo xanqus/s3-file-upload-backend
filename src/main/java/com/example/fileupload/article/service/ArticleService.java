@@ -19,7 +19,7 @@ public class ArticleService {
         return articleRepostiory.findAll();
     }
 
-    public void createArticle(CreateArticleForm createArticleForm) {
+    public Article createArticle(CreateArticleForm createArticleForm) {
         Article article = Article.builder()
                 .title(createArticleForm.getTitle())
                 .body(createArticleForm.getBody())
@@ -27,6 +27,7 @@ public class ArticleService {
                 .updatedDate(LocalDateTime.now())
                 .build();
         articleRepostiory.save(article);
+        return article;
     }
 
     public Article getArticle(Long id) {

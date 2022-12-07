@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.fileupload.article.domain.Article;
 import com.example.fileupload.article.dto.CreateArticleForm;
 import com.example.fileupload.article.service.ArticleService;
+import com.example.fileupload.article_image.service.ArticleImageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,8 @@ public class ArticleController {
     private final AmazonS3 amazonS3;
 
     private final ArticleService articleService;
+
+    private final ArticleImageService articleImageService;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex){
@@ -58,8 +61,12 @@ public class ArticleController {
 
         amazonS3.putObject(bucket, originalFilename, files.get(0).getInputStream(), objectMetadata);
 
+        String imgUrl = amazonS3.getUrl(bucket, originalFilename).toString();
+
+        Article article = articleService.createArticle(createArticleForm);
+
+        articleImageService.addArticleImage(imgUrl, article);
 
 
-        articleService.createArticle(createArticleForm);
     }
 }
