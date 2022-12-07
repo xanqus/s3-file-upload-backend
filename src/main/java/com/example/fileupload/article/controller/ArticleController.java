@@ -1,11 +1,11 @@
 package com.example.fileupload.article.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.fileupload.article.domain.Article;
 import com.example.fileupload.article.dto.CreateArticleForm;
 import com.example.fileupload.article.service.ArticleService;
 import com.example.fileupload.article_image.service.ArticleImageService;
+import com.example.fileupload.aws.service.AwsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +34,10 @@ public class ArticleController {
 
     private final ArticleImageService articleImageService;
 
+    private final AwsService awsService;
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex){
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors()
                 .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
@@ -53,20 +55,12 @@ public class ArticleController {
     }
 
     @PostMapping("")
-    public void createArticle(@Valid CreateArticleForm createArticleForm, @RequestParam(value="files", required = false) List<MultipartFile> files) throws IOException {
-
-        String originalFilename = files.get(0).getOriginalFilename();
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(files.get(0).getInputStream().available());
-
-        amazonS3.putObject(bucket, originalFilename, files.get(0).getInputStream(), objectMetadata);
-
-        String imgUrl = amazonS3.getUrl(bucket, originalFilename).toString();
+    public void createArticle(@Valid CreateArticleForm createArticleForm, @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         Article article = articleService.createArticle(createArticleForm);
 
+        String imgUrl = awsService.sendFileToS3Bucket(files.get(0));
+
         articleImageService.addArticleImage(imgUrl, article);
-
-
     }
 }

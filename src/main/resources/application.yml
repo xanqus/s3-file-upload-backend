@@ -10,6 +10,11 @@ spring:
   jpa:
     hibernate:
       #ddl-auto: create
+  servlet:
+    multipart:
+      maxFileSize: 1000MB
+      maxRequestSize: 1000MB
+
 
 cloud:
   aws:
