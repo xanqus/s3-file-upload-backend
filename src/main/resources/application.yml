@@ -9,4 +9,17 @@ spring:
     password: sbs123414
   jpa:
     hibernate:
-      #ddl-auto: create
+      ddl-auto: create
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAXVDA3VFKPYJVCMZQ
+      secretKey: 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
+    s3:
+      bucket: file-upload-exam
+      dir: /
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
