@@ -58,6 +58,7 @@ public class ArticleController {
     public void createArticle(@Valid CreateArticleForm createArticleForm, @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         Article article = articleService.createArticle(createArticleForm);
+        if(files == null) return;
         files.stream()
                 .forEach(file -> {
                     try {
