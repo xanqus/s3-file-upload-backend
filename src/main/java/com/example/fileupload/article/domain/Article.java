@@ -1,12 +1,11 @@
 package com.example.fileupload.article.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.fileupload.article_image.domain.ArticleImage;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,4 +26,7 @@ public class Article {
     private LocalDateTime createDate;
 
     private LocalDateTime updatedDate;
+
+    @OneToMany(mappedBy = "article")
+    private List<ArticleImage> imageList;
 }

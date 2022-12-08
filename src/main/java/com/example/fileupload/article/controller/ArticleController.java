@@ -2,6 +2,7 @@ package com.example.fileupload.article.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.example.fileupload.article.domain.Article;
+import com.example.fileupload.article.dto.ArticleDto;
 import com.example.fileupload.article.dto.CreateArticleForm;
 import com.example.fileupload.article.service.ArticleService;
 import com.example.fileupload.article_image.service.ArticleImageService;
@@ -45,12 +46,12 @@ public class ArticleController {
     }
 
     @GetMapping("")
-    public List<Article> getArticles() {
+    public List<ArticleDto> getArticles() {
         return articleService.getAllArticles();
     }
 
     @GetMapping("/{id}")
-    public Article getArticles(@PathVariable Long id) {
+    public ArticleDto getArticles(@PathVariable Long id) {
         return articleService.getArticle(id);
     }
 
@@ -69,6 +70,7 @@ public class ArticleController {
                         // s3 bucket 업로드 후 imgUrl db 저장 로직
                         articleImageService.addArticleImage(imgUrl, article);
                     } catch (IOException e) {
+                        System.out.println("파일 업로드 에러");
                         throw new RuntimeException(e);
                     }
                 });
