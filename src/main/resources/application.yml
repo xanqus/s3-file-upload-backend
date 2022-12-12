@@ -9,7 +9,7 @@ spring:
     password: sbs123414
   jpa:
     hibernate:
-      ddl-auto: create
+      #ddl-auto: create
   servlet:
     multipart:
       maxFileSize: 1000MB

@@ -15,6 +15,8 @@ public class ArticleDto {
 
     private Long id;
 
+    private String title;
+
     private String body;
 
     private LocalDateTime createDate;
@@ -25,6 +27,8 @@ public class ArticleDto {
 
     public ArticleDto(Article article) {
         this.id = article.getId();
+
+        this.title = article.getTitle();
 
         this.body = article.getBody();
 

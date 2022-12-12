@@ -29,6 +29,7 @@ public class ArticleService {
 
     public Article createArticle(CreateArticleForm createArticleForm) {
         Article article = Article.builder()
+                .title(createArticleForm.getTitle())
                 .body(createArticleForm.getBody())
                 .createDate(LocalDateTime.now())
                 .updatedDate(LocalDateTime.now())
