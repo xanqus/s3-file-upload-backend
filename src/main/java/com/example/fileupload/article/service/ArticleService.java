@@ -4,6 +4,7 @@ import com.example.fileupload.article.dao.ArticleRepository;
 import com.example.fileupload.article.domain.Article;
 import com.example.fileupload.article.dto.ArticleDto;
 import com.example.fileupload.article.dto.CreateArticleForm;
+import com.example.fileupload.article_image.service.ArticleImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 public class ArticleService {
 
     private final ArticleRepository articleRepostiory;
+
+    private final ArticleImageService articleImageService;
 
     public List<ArticleDto> getAllArticles() {
         return articleRepostiory.findAll()
@@ -34,7 +37,8 @@ public class ArticleService {
                 .createDate(LocalDateTime.now())
                 .updatedDate(LocalDateTime.now())
                 .build();
-        articleRepostiory.save(article);
+        Article article1 = articleRepostiory.save(article);
+        articleImageService.setArticleAtArticleImageList(article1, createArticleForm.getImageIdList());
         return article;
     }
 

@@ -7,6 +7,8 @@ import com.example.fileupload.article_image.dto.ArticleImageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleImageService {
@@ -24,4 +26,16 @@ public class ArticleImageService {
     }
 
 
+    public void setArticleAtArticleImageList(Article article1, List<Long> imageIdList) {
+        List<ArticleImage> articleImageList = articleImageRepository.findByIdIn(imageIdList);
+        System.out.println("게시물에 등록된 사진 개수: " + articleImageList.size());
+        articleImageList
+                .stream()
+                .forEach(
+                        articleImage -> {
+                            articleImage.setArticle(article1);
+                            articleImageRepository.save(articleImage);
+                        }
+                );
+    }
 }

@@ -55,11 +55,7 @@ public class ArticleController {
 
     @PostMapping("")
     public void createArticle(@Valid CreateArticleForm createArticleForm) throws IOException {
-        createArticleForm.getImageIdList()
-                .stream()
-                        .forEach(id->{
-                            System.out.println("id: " + id);
-                        });
+
 
         // 게시물 작성 후 db 저장 로직
         articleService.createArticle(createArticleForm);

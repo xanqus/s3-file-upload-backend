@@ -19,5 +19,5 @@ public class CreateArticleForm {
     @Size(min = 1,max = 3000)
     private String body;
 
-    private List<Integer> imageIdList;
+    private List<Long> imageIdList;
 }
