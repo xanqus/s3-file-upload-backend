@@ -17,6 +17,9 @@ public class ArticleImageService {
                 .imgUrl(imgUrl)
                 .article(article)
                 .build();
-        articleImageRepository.save(articleImage);
+        ArticleImage articleImage1 = articleImageRepository.save(articleImage);
+        System.out.println(articleImage1.getId());
     }
+
+
 }

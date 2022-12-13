@@ -19,8 +19,8 @@ spring:
 cloud:
   aws:
     credentials:
-      accessKey: AKIAXVDA3VFKPYJVCMZQ
-      secretKey: 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
+      accessKey: ${aws.accessKey}
+      secretKey: ${aws.secretKey}
     s3:
       bucket: file-upload-exam
       dir: /
