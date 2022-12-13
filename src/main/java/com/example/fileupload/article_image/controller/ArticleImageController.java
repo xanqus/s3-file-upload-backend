@@ -1,5 +1,6 @@
 package com.example.fileupload.article_image.controller;
 
+import com.example.fileupload.article_image.dto.ArticleImageDto;
 import com.example.fileupload.article_image.service.ArticleImageService;
 import com.example.fileupload.aws.service.AwsService;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +24,11 @@ public class ArticleImageController {
 
 
     @PostMapping("")
-    public String createImageUrl(@RequestParam("file") MultipartFile file) throws IOException {
+    public ArticleImageDto createImageUrl(@RequestParam("file") MultipartFile file) throws IOException {
 
         String imgUrl = awsService.sendFileToS3Bucket(file);
-        articleImageService.addArticleImage(imgUrl, null);
-        return imgUrl;
+        return articleImageService.addArticleImage(imgUrl, null);
+
 
     }
 }

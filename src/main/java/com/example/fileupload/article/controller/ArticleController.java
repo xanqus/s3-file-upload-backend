@@ -1,7 +1,6 @@
 package com.example.fileupload.article.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.example.fileupload.article.domain.Article;
 import com.example.fileupload.article.dto.ArticleDto;
 import com.example.fileupload.article.dto.CreateArticleForm;
 import com.example.fileupload.article.service.ArticleService;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -56,23 +54,15 @@ public class ArticleController {
     }
 
     @PostMapping("")
-    public void createArticle(@Valid CreateArticleForm createArticleForm, @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
+    public void createArticle(@Valid CreateArticleForm createArticleForm) throws IOException {
+        createArticleForm.getImageIdList()
+                .stream()
+                        .forEach(id->{
+                            System.out.println("id: " + id);
+                        });
 
         // 게시물 작성 후 db 저장 로직
-        Article article = articleService.createArticle(createArticleForm);
-        if(files == null) return;
-        files.stream()
-                .forEach(file -> {
-                    try {
-                        // s3 bucket 업로드 로직
-                        String imgUrl = awsService.sendFileToS3Bucket(file);
-                        
-                        // s3 bucket 업로드 후 imgUrl db 저장 로직
-                        articleImageService.addArticleImage(imgUrl, article);
-                    } catch (IOException e) {
-                        System.out.println("파일 업로드 에러");
-                        throw new RuntimeException(e);
-                    }
-                });
+        articleService.createArticle(createArticleForm);
+
     }
 }
