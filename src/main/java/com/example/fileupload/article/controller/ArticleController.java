@@ -64,6 +64,7 @@ public class ArticleController {
 
     @DeleteMapping("")
     public void deleteArticle(@RequestParam("id") Long id) {
+
         articleService.deleteArticle(id);
     }
 }

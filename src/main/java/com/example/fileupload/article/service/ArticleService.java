@@ -1,11 +1,14 @@
 package com.example.fileupload.article.service;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.example.fileupload.article.dao.ArticleRepository;
 import com.example.fileupload.article.domain.Article;
 import com.example.fileupload.article.dto.ArticleDto;
 import com.example.fileupload.article.dto.CreateArticleForm;
+import com.example.fileupload.article_image.domain.ArticleImage;
 import com.example.fileupload.article_image.service.ArticleImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +22,11 @@ public class ArticleService {
     private final ArticleRepository articleRepostiory;
 
     private final ArticleImageService articleImageService;
+
+    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     public List<ArticleDto> getAllArticles() {
         return articleRepostiory.findAll()
@@ -49,6 +57,20 @@ public class ArticleService {
     }
 
     public void deleteArticle(Long id) {
+        Article article = articleRepostiory.findById(id).orElseThrow();
+
+        List<ArticleImage> articleImageList = articleImageService.getArticleImageByArticle(article);
+
+        articleImageList
+                .stream()
+                        .forEach(articleImage -> {
+                            String imgUrl = articleImage.getImgUrl();
+                            String filename = imgUrl.substring(imgUrl.lastIndexOf("/") + 1, imgUrl.length());
+                            amazonS3.deleteObject(bucket, filename);
+
+                        });
+
         articleRepostiory.deleteById(id);
+
     }
 }

@@ -38,4 +38,8 @@ public class ArticleImageService {
                         }
                 );
     }
+
+    public List<ArticleImage> getArticleImageByArticle(Article article) {
+        return articleImageRepository.findByArticle(article);
+    }
 }

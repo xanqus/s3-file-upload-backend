@@ -19,11 +19,15 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String articleUniqueId;
+
     @Column(length = 100)
     private String title;
 
     @Column(columnDefinition = "LONGTEXT")
     private String body;
+
+    private Boolean isTemp;
 
     private LocalDateTime createDate;
 
