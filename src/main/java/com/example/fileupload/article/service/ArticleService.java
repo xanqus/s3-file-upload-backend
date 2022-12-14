@@ -73,4 +73,22 @@ public class ArticleService {
         articleRepostiory.deleteById(id);
 
     }
+
+    public void createTmpArticle(String articleUniqueId, CreateArticleForm createArticleForm) {
+        Article article = Article.builder()
+                .articleUniqueId(articleUniqueId)
+                .title(createArticleForm.getTitle())
+                .body(createArticleForm.getBody())
+                .createDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .isTemp(true)
+                .build();
+        articleRepostiory.save(article);
+    }
+
+    public ArticleDto getTmpArticle(String articleUniqueId) {
+        Article article = articleRepostiory.findByArticleUniqueId(articleUniqueId);
+        ArticleDto articleDto = new ArticleDto(article);
+        return articleDto;
+    }
 }

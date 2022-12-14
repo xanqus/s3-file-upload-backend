@@ -56,7 +56,6 @@ public class ArticleController {
     @PostMapping("")
     public void createArticle(@Valid CreateArticleForm createArticleForm) throws IOException {
 
-
         // 게시물 작성 후 db 저장 로직
         articleService.createArticle(createArticleForm);
 
@@ -66,5 +65,18 @@ public class ArticleController {
     public void deleteArticle(@RequestParam("id") Long id) {
 
         articleService.deleteArticle(id);
+    }
+
+    // 임시 저장된 article 가져오기
+    @GetMapping("/tmp")
+    public ArticleDto getTmpArticle(@RequestParam("articleUniqueId") String articleUniqueId) {
+        return articleService.getTmpArticle(articleUniqueId);
+    }
+
+    // 게시물 임시저장 로직
+    @PostMapping("/tmpSave")
+    public void tmpSaveArticle(@RequestParam("articleUniqueId") String articleUniqueId, @Valid CreateArticleForm createArticleForm) {
+
+        articleService.createTmpArticle(articleUniqueId, createArticleForm);
     }
 }
