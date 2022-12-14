@@ -91,4 +91,20 @@ public class ArticleService {
         ArticleDto articleDto = new ArticleDto(article);
         return articleDto;
     }
+
+    public void patchTmpArticle(String articleUniqueId, CreateArticleForm createArticleForm) {
+        Article article = articleRepostiory.findByArticleUniqueId(articleUniqueId);
+
+        article.setTitle(createArticleForm.getTitle());
+        article.setBody(createArticleForm.getBody());
+        articleRepostiory.save(article);
+    }
+
+    public void patchCompleteSaveArticle(String articleUniqueId, CreateArticleForm createArticleForm) {
+        Article article = articleRepostiory.findByArticleUniqueId(articleUniqueId);
+        article.setTitle(createArticleForm.getTitle());
+        article.setBody(createArticleForm.getBody());
+        article.setIsTemp(false);
+        articleRepostiory.save(article);
+    }
 }

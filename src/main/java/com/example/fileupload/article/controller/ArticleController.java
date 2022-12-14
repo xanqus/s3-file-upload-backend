@@ -79,4 +79,16 @@ public class ArticleController {
 
         articleService.createTmpArticle(articleUniqueId, createArticleForm);
     }
+
+    @PatchMapping("/tmpSave")
+    public void tmpSaveArticlePatch(@RequestParam("articleUniqueId") String articleUniqueId, @Valid CreateArticleForm createArticleForm) {
+        articleService.patchTmpArticle(articleUniqueId, createArticleForm);
+
+    }
+
+    @PatchMapping("/completeSave")
+    public void completeSaveArticlePatch(@RequestParam("articleUniqueId") String articleUniqueId, @Valid CreateArticleForm createArticleForm) {
+        articleService.patchCompleteSaveArticle(articleUniqueId, createArticleForm);
+
+    }
 }
