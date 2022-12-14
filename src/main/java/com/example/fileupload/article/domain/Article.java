@@ -29,6 +29,6 @@ public class Article {
 
     private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<ArticleImage> imageList;
 }

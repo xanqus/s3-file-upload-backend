@@ -47,4 +47,8 @@ public class ArticleService {
         ArticleDto articleDto = new ArticleDto(article);
         return articleDto;
     }
+
+    public void deleteArticle(Long id) {
+        articleRepostiory.deleteById(id);
+    }
 }

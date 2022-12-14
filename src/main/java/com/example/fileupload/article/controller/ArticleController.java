@@ -61,4 +61,9 @@ public class ArticleController {
         articleService.createArticle(createArticleForm);
 
     }
+
+    @DeleteMapping("")
+    public void deleteArticle(@RequestParam("id") Long id) {
+        articleService.deleteArticle(id);
+    }
 }
