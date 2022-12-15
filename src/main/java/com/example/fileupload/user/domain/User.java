@@ -1,4 +1,4 @@
-package user.domain;
+package com.example.fileupload.user.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
