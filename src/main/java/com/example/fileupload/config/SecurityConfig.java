@@ -25,11 +25,12 @@ public class SecurityConfig {
                 .httpBasic().disable() // http 기본 인증방식을 사용 안함
                 .apply(new CustomDsl())
                 .and()
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**")
-                        .permitAll()
-                        // Todo: 권한 설정
-                )
+//                .authorizeHttpRequests(authorize -> authorize
+//
+//                                .requestMatchers("/**")
+//                                .permitAll()
+//                        // Todo: 권한 설정
+//                )
                 .build();
     }
 
@@ -37,6 +38,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+            System.out.println("authenticationManager: " + authenticationManager);
             http
                     .addFilter(new JwtAuthenticationFilter(authenticationManager));
         }
