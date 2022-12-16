@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 //            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 //            System.out.println("principalDetails: " + principalDetails.getUsername());
 
-            return null;
+            return authentication;
 
 
         } catch (StreamReadException e) {
@@ -78,6 +78,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         System.out.println("인증 완료됨");
+        System.out.println(authResult.getName());
         
         super.successfulAuthentication(request, response, chain, authResult);
     }
