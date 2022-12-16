@@ -1,5 +1,7 @@
 package com.example.fileupload.auth.jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.example.fileupload.user.domain.User;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -15,6 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.Date;
 
 // 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter라는게 있음
 // login 요청해서(/login) username, password를 post로 요청하면
@@ -79,7 +82,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         System.out.println("인증 완료됨");
         System.out.println(authResult.getName());
+
+        String jwtToken = JWT.create()
+                .withSubject("login token")
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("username", authResult.getName())
+                .sign(Algorithm.HMAC256(JwtProperties.SECRET));
+
+        response.addHeader("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken);
         
-        super.successfulAuthentication(request, response, chain, authResult);
     }
 }
