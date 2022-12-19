@@ -38,8 +38,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         System.out.println("JwtAuthenticationFilter : 로그인 시도중");
 
-        // Todo: Jwt 반환
-
         // 1. UsernamePasswordAuthenticationFilter가 username, password를 받음
 
         // 2. 로그인시도를 해봄
@@ -91,6 +89,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(Algorithm.HMAC256(JwtProperties.SECRET));
 
         response.addHeader("Authorization", JwtProperties.TOKEN_PREFIX + jwtToken);
-        
+
     }
 }
