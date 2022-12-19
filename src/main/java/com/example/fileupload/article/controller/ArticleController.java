@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/api/v1/article")
 @RequiredArgsConstructor
 public class ArticleController {
 

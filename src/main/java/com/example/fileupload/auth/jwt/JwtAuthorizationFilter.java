@@ -79,8 +79,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             objectMapper.writeValue(response.getOutputStream(), responseDto);
 
         }
+        chain.doFilter(request, response);
 
-        super.doFilterInternal(request, response, chain);
+//        super.doFilterInternal(request, response, chain);
 
     }
 

@@ -40,7 +40,6 @@ public class SecurityConfig {
                                 .hasRole("ADMIN")
                                 .anyRequest()
                                 .permitAll()
-
                 )
                 .build();
     }
