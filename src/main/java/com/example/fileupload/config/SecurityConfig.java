@@ -1,6 +1,9 @@
 package com.example.fileupload.config;
 
 import com.example.fileupload.auth.jwt.JwtAuthenticationFilter;
+import com.example.fileupload.auth.jwt.JwtAuthorizationFilter;
+import com.example.fileupload.user.dao.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final UserRepository userRepository;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -25,12 +31,17 @@ public class SecurityConfig {
                 .httpBasic().disable() // http 기본 인증방식을 사용 안함
                 .apply(new CustomDsl())
                 .and()
-//                .authorizeHttpRequests(authorize -> authorize
-//
-//                                .requestMatchers("/**")
-//                                .permitAll()
-//                        // Todo: 권한 설정
-//                )
+                .authorizeHttpRequests(authorize -> authorize
+
+                                .requestMatchers("/api/v1/user/**")
+//                                .hasRole("ROLE_USER")
+                                .hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/v1/admin/**")
+                                .hasRole("ADMIN")
+                                .anyRequest()
+                                .permitAll()
+
+                )
                 .build();
     }
 
@@ -40,7 +51,9 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             System.out.println("authenticationManager: " + authenticationManager);
             http
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager));
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
+
         }
     }
 }
