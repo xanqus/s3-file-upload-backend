@@ -22,5 +22,12 @@ pipeline {
                 """
             }
         }
+        stage("Build Docker image") {
+            steps {
+                sh """
+                docker build -t sbs-community-backend:latest .
+                """
+            }
+        }
     }
 }
