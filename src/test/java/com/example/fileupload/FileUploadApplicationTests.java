@@ -9,16 +9,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class FileUploadApplicationTests {
 
-	@Value("${cloud.aws.s3.bucket}")
-	private String bucket;
-
-	@Autowired
-	private AmazonS3 amazonS3;
-
-
-	@Test
-	void contextLoads() {
-		amazonS3.deleteObject(bucket, "filename");
-	}
 
 }
