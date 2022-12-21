@@ -32,8 +32,8 @@ pipeline {
         stage("Docker run") {
             steps {
                 sh 'docker ps -f sbs-community-backend -q | xargs --no-run-if-empty docker container stop'
-                sh 'docker container ls -a -f sbs-community-backend -q | xargs -r docker container rm'
-                sh 'docker images --no-trunc --all --quiet --filter="dangling=true" | xargs --no-run-if-empty docker rmi'
+                sh 'docker container ls -a -f sbs-community-backend -q | xargs -r docker container rm -f'
+                sh 'docker images --no-trunc --all --quiet --filter="dangling=true" | xargs --no-run-if-empty docker rmi -f'
                 sh 'docker run -d --name sbs-community-backend-dev -v /home/ubuntu/.aws:/root/.aws -p 8182:8089 --net sbs-community-net --restart unless-stopped sbs-community-backend:latest'
             }
         }
