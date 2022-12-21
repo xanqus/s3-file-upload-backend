@@ -4,12 +4,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/file-upload?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://db:3306/file-upload?serverTimezone=Asia/Seoul
     username: sbsst
     password: sbs123414
   jpa:
     hibernate:
-      #ddl-auto: create
+      ddl-auto: create
   servlet:
     multipart:
       maxFileSize: 1000MB
